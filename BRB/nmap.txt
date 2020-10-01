@@ -1,4 +1,0 @@
-# Nmap 7.80 scan initiated Wed Sep 30 11:50:25 2020 as: nmap -sX -sV -O -oG nmap.txt 192.168.56.107
-Host: 192.168.56.107 ()	Status: Up
-Host: 192.168.56.107 ()	Ports: 22/open/tcp//ssh//OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)/, 80/open/tcp//http//Apache httpd 2.2.22 ((Ubuntu))/, 111/open/tcp//rpcbind//2-4 (RPC #100000)/	Ignored State: closed (997)	OS: Linux 2.6.32 - 3.5	Seq Index: 262	IP ID Seq: All zeros
-# Nmap done at Wed Sep 30 11:50:42 2020 -- 1 IP address (1 host up) scanned in 17.16 seconds
