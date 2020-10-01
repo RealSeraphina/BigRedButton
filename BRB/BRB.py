@@ -6,14 +6,17 @@
 import os
 import sys
 
-def menu(menuFile):
-    with open(menuFile) as dasFile:
+def logo(logoFile):
+    with open(logoFile) as dasFile:
         for line in dasFile:
             print(line, end='')
 
 
 def updateTools():
     os.system("searchsploit -u")
+
+def attackTarget():
+    os.system("msfconsole msf exploit\(handler\) > load msgrpc Pass=pa55w0rd")
 
 
 """
@@ -45,20 +48,32 @@ def findServiceVersion(nmapFile):
     return (srvVerDic)
 
 
-def pushTheBRB(target):
+def runScans(target):
     os.system("nmap -sX -sV -O -oX nmap.xml " + target)
     os.system("nikto -Display 1234EP -o nikto.csv -Format csv -Tuning 123bde -host " + target)
-    #os.system("nikto -host 192.168.56.107")
     os.system("dirb http://" + target + " -w > dirb.txt")
-    commandSearchsploit = "searchsploit -v --nmap nmap.xml -w > exploitDB.txt"
-    os.system(commandSearchsploit)
+    os.system("searchsploit -v --nmap nmap.xml -w > exploitDB.txt")
 
 
 def main():
-    menu("menu.brb")
-    if len(sys.argv) > 2 and sys.argv[2].lower() == "u":
-        updateTools()
-    pushTheBRB(sys.argv[1])
+    scansComplete = False
+    logo("logo.brb")
+    if len(sys.argv) == 2:
+        runScans(sys.argv[1])
+    elif len(sys.argv) > 2:
+        for element in sys.argv:
+            if element.lower() == "u":
+                updateTools()
+                if not scansComplete:
+                    runScans(sys.argv[1])
+                    scansComplete = True
+            elif element.lower() == "a":
+                if not scansComplete:
+                    runScans(sys.argv[1])
+                    scansComplete = True
+                attackTarget()
+    else:
+        print("Please supply target IP followed by parameter(s) u = update tools | a = attack target")
 
 
 # Press the green button in the gutter to run the script.
