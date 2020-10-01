@@ -62,18 +62,21 @@ def main():
         runScans(sys.argv[1])
     elif len(sys.argv) > 2:
         for element in sys.argv:
-            if element.lower() == "u":
+            if element.lower() == "-u":
                 updateTools()
                 if not scansComplete:
                     runScans(sys.argv[1])
                     scansComplete = True
-            elif element.lower() == "a":
+            elif element.lower() == "-a":
                 if not scansComplete:
                     runScans(sys.argv[1])
                     scansComplete = True
                 attackTarget()
     else:
-        print("Please supply target IP followed by parameter(s) u = update tools | a = attack target")
+        print("Please supply target IP followed by zero or more parameters -u = update tools | -a = attack target")
+        print("Examples: BRB 127.0.0.1")
+        print("          BRB 127.0.0.1 -u")
+        print("          BRB 127.0.0.1 -u -a")
 
 
 # Press the green button in the gutter to run the script.
