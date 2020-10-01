@@ -5,6 +5,8 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import os
 import sys
+import time
+
 
 def logo(logoFile):
     with open(logoFile) as dasFile:
@@ -16,7 +18,14 @@ def updateTools():
     os.system("searchsploit -u")
 
 def attackTarget():
-    os.system("msfconsole msf exploit\(handler\) > load msgrpc Pass=pa55w0rd")
+    #os.system("msfconsole msf exploit\(handler\) > load msgrpc Pass=pa55w0rd")
+    #os.system("msfrpcd -U user -P pass123")
+    os.system("msfrpcd -P yourpassword -S")
+    #os.system("use exploit linux/samba/trans2open")
+    #os.system("msfrpcd -P mypassword -n -f -a 127.0.0.1")
+    #os.system("msfconsole")
+    #time.sleep(60)
+    #os.system("use linux/samba/trans2open")
 
 
 """
@@ -71,6 +80,8 @@ def main():
                 if not scansComplete:
                     runScans(sys.argv[1])
                     scansComplete = True
+                attackTarget()
+            elif element.lower() == "-x":
                 attackTarget()
     else:
         print("Please supply target IP followed by zero or more parameters -u = update tools | -a = attack target")
