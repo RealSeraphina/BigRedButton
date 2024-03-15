@@ -12,5 +12,7 @@ See a [short video](https://www.youtube.com/watch?v=F8FriuRDsyc&list=PL8QfLIozbp
 
 ----------------------------
 ## Tech Bootcamps at LSU, powered by Fullstack Academy
+This project was completed as the capstone project for LSU's Cybersecurity bootcamp 
+
 - https://bootcamp.online.lsu.edu/
 - https://www.fullstackacademy.com/
