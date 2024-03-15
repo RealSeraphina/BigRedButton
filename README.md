@@ -16,6 +16,7 @@ See a [short video](https://www.youtube.com/watch?v=F8FriuRDsyc&list=PL8QfLIozbp
 - https://www.fullstackacademy.com/
 
 This project was completed as the capstone project for LSU's Cybersecurity bootcamp!
+
 I even got a nifty Badge for it completing the bootcamp!
 
 [<img src="https://api.badgr.io/public/assertions/fH-C9MqrTnCOCT7K02PsGw/image">](https://api.badgr.io/public/assertions/fH-C9MqrTnCOCT7K02PsGw)
